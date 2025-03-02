@@ -28,10 +28,13 @@
         </nav>
         <div class="serach-bar">
             <div class="title">
-                <h1>หน่วยงาน</h1>
+                <h1><i class="fas fa-building"></i> หน่วยงาน</h1>
             </div>
-            <div>
+            <div class="action-container">
                 <input type="text" placeholder="ค้นหาหน่วยงาน...">
+                <button type="button" class="btn-orange create-btn" onclick="openCreatePopup()">
+                    <i class="fas fa-plus"></i> เพิ่มหน่วยงาน
+                </button>
             </div>
         </div>
     </header>
@@ -74,9 +77,23 @@
                 <h2>แก้ไขชื่อหน่วยงาน</h2>
                 <span class="popup-close" onclick="closeEditPopup()">&times;</span>
             </div>
-            <form class="popup-form" onsubmit="saveDepartmentName(event)">
+            <form class="popup-form" id="editForm" onsubmit="saveDepartmentName(event)">
                 <input type="text" id="departmentName" placeholder="ชื่อหน่วยงาน">
-                <button type="submit">บันทึก</button>
+                <button type="submit" class="btn-orange">บันทึก</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add this new popup for creating department -->
+    <div class="popup-overlay" id="createPopup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2>เพิ่มหน่วยงานใหม่</h2>
+                <span class="popup-close" onclick="closeCreatePopup()">&times;</span>
+            </div>
+            <form class="popup-form" onsubmit="createDepartment(event)">
+                <input type="text" id="newDepartmentName" placeholder="ชื่อหน่วยงาน">
+                <button type="submit" class="btn-orange">สร้าง</button>
             </form>
         </div>
     </div>

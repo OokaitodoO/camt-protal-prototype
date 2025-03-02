@@ -229,11 +229,14 @@ ul {
     cursor: pointer;
     color: #666;
     font-size: 1.5rem;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
 .popup-close:hover {
     color: #F48E2E;
+    background-color: rgba(244, 142, 46, 0.1);
 }
 
 .popup-form {
@@ -266,6 +269,7 @@ ul {
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: bold;
+    width: 100%;
 }
 
 .popup-form button:hover {
@@ -297,4 +301,76 @@ ul {
         width: 90%;
         margin: 0 20px;
     }
+}
+
+/* Add these new styles */
+.action-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.create-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.create-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(244, 142, 46, 0.3);
+}
+
+/* Animation for new cards */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.department-card.new {
+    animation: scaleIn 0.5s ease-out;
+}
+
+/* Add animation for updated cards */
+@keyframes updateFlash {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.department-card.updated {
+    animation: updateFlash 0.3s ease-out;
+}
+
+/* Improve input styling */
+.popup-form input[type="text"] {
+    padding: 10px;
+    border: 2px solid #ECE3DB;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.popup-form input[type="text"]:focus {
+    outline: none;
+    border-color: #F48E2E;
+    box-shadow: 0 0 5px rgba(244, 142, 46, 0.2);
+}
+
+/* Add animation for successful update */
+@keyframes successUpdate {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.department-card.updated {
+    animation: successUpdate 0.3s ease-out;
 }
