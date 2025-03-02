@@ -1,20 +1,16 @@
 console.log('Department JS loaded');
 
 let currentCard = null;
+let departmentToDelete = null;
 
 function openEditPopup(element) {
     console.log('Opening edit popup...');
     const popup = document.getElementById('editPopup');
-    console.log('Edit popup element:', popup);
     
     const departmentName = element.getAttribute('data-department');
-    console.log('Department name:', departmentName);
-    
     const input = document.getElementById('departmentName');
-    console.log('Input element:', input);
     
     currentCard = element.closest('.department-card');
-    console.log('Current card:', currentCard);
     
     if (popup && input && currentCard) {
         input.value = departmentName;
@@ -48,36 +44,45 @@ function handleEditKeyPress(event) {
 
 function saveDepartmentName(event) {
     event.preventDefault();
-    console.log('Saving department name...');
     
     const newName = document.getElementById('departmentName').value;
-    if (currentCard && newName.trim() !== '') {
-        // Update the department name in the card
-        const departmentNameElement = currentCard.querySelector('.department-name');
-        const iconActionElement = currentCard.querySelector('.icon-action');
-        
-        if (departmentNameElement && iconActionElement) {
-            departmentNameElement.textContent = newName;
-            iconActionElement.setAttribute('data-department', newName);
-            
-            // Add animation class
-            currentCard.classList.add('updated');
-            
-            // Close popup immediately
-            closeEditPopup();
-            
-            // AJAX request to update the backend
-            axios.post('/update-department', { name: newName })
-                .then(response => {
-                    console.log('Updated successfully');
-                })
-                .catch(error => {
-                    console.error('Error updating department:', error);
-                });
-        }
-    } else {
-        console.error('Current card not found or new name is empty');
+    const iconFile = document.getElementById('editDepartmentIcon').files[0];
+    const oldName = currentCard.querySelector('.department-name').textContent;
+    
+    if (!currentCard || newName.trim() === '') {
+        return;
     }
+    
+    const formData = new FormData();
+    formData.append('name', newName);
+    formData.append('old_name', oldName);
+    if (iconFile) {
+        formData.append('icon', iconFile);
+    }
+    
+    axios.post('/departments/update', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then(response => {
+        console.log('Update response:', response);
+        const departmentNameElement = currentCard.querySelector('.department-name');
+        const iconElement = currentCard.querySelector('.card-content img');
+        
+        departmentNameElement.textContent = newName;
+        if (response.data.icon_path) {
+            iconElement.src = response.data.icon_path;
+        }
+        
+        currentCard.classList.add('updated');
+        closeEditPopup();
+    })
+    .catch(error => {
+        console.error('Error updating department:', error);
+        console.error('Error details:', error.response?.data);
+        alert('Failed to update department. Please try again.');
+    });
 }
 
 // Add these new functions
@@ -99,26 +104,6 @@ function closeCreatePopup() {
     }
 }
 
-function createDepartment(event) {
-    event.preventDefault();
-    
-    const newName = document.getElementById('newDepartmentName').value;
-    if (newName.trim() !== '') {
-        // Create new department card
-        const container = document.querySelector('.content-container');
-        const newCard = createDepartmentCard(newName);
-        container.appendChild(newCard);
-        
-        // Clear input and close popup
-        document.getElementById('newDepartmentName').value = '';
-        closeCreatePopup();
-        
-        // AJAX request to create in backend
-        axios.post('/create-department', { name: newName })
-            .catch(error => console.error('Error creating department:', error));
-    }
-}
-
 function createDepartmentCard(name) {
     const card = document.createElement('div');
     card.className = 'department-card new';
@@ -135,7 +120,142 @@ function createDepartmentCard(name) {
         </div>
     `;
     
+    // Get the container
+    const container = document.querySelector('.content-container');
+    
+    // Remove all cards and store them in an array
+    const cards = Array.from(container.querySelectorAll('.department-card:not(.create-card)'));
+    const createCard = container.querySelector('.create-card');
+    
+    // Clear the container
+    container.innerHTML = '';
+    
+    // Add new card to the array
+    cards.push(card);
+    
+    // Sort cards by department name
+    cards.sort((a, b) => {
+        const nameA = a.querySelector('.department-name').textContent.toLowerCase();
+        const nameB = b.querySelector('.department-name').textContent.toLowerCase();
+        return nameA.localeCompare(nameB);
+    });
+    
+    // Add all cards back to container
+    cards.forEach(card => container.appendChild(card));
+    
+    // Add create card at the end
+    container.appendChild(createCard);
+    
     return card;
+}
+
+function previewImage(input, previewId) {
+    console.log('Preview image function called:', input, previewId);
+    const preview = document.getElementById(previewId);
+    const file = input.files[0];
+    
+    if (file) {
+        // Check file size (2MB limit)
+        if (file.size > 2 * 1024 * 1024) {
+            alert('ไฟล์ขนาดใหญ่เกินไป กรุณาเลือกไฟล์ขนาดไม่เกิน 2MB');
+            input.value = '';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    } else {
+        console.log('No file selected');
+    }
+}
+
+function createDepartment(event) {
+    event.preventDefault();
+    
+    const newName = document.getElementById('newDepartmentName').value;
+    const iconFile = document.getElementById('createDepartmentIcon').files[0];
+    
+    if (newName.trim() === '') {
+        alert('กรุณากรอกชื่อหน่วยงาน');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('name', newName);
+    if (iconFile) {
+        formData.append('icon', iconFile);
+    }
+    
+    axios.post('/departments/create', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then(response => {
+        location.reload(); // Reload the page to show the new department
+    })
+    .catch(error => {
+        console.error('Error creating department:', error);
+        console.error('Error details:', error.response?.data);
+        alert('Failed to create department. Please try again.');
+    });
+}
+
+// Update the delete confirmation function
+function openDeleteConfirmation() {
+    console.log('Opening delete confirmation...');
+    const popup = document.getElementById('deletePopup');
+    const departmentName = document.getElementById('departmentName').value;
+    const nameSpan = document.getElementById('deleteDepartmentName');
+    
+    // Store the current department name for deletion
+    departmentToDelete = departmentName;
+    
+    if (popup && nameSpan && departmentName) {
+        console.log('Current card for deletion:', currentCard);
+        console.log('Department name for deletion:', departmentName);
+        nameSpan.textContent = departmentName;
+        popup.style.display = 'flex';
+        // Don't close the edit popup until deletion is confirmed
+    } else {
+        console.error('Delete popup elements not found or department name is empty');
+    }
+}
+
+function closeDeletePopup() {
+    console.log('Closing delete popup...');
+    const popup = document.getElementById('deletePopup');
+    if (popup) {
+        popup.style.display = 'none';
+        departmentToDelete = null;
+    }
+}
+
+function deleteDepartment() {
+    if (!currentCard) {
+        console.error('No department selected for deletion');
+        return;
+    }
+    
+    const departmentName = currentCard.querySelector('.department-name').textContent;
+    
+    axios.delete(`/departments/${encodeURIComponent(departmentName)}`)
+        .then(response => {
+            currentCard.classList.add('deleting');
+            setTimeout(() => {
+                currentCard.remove();
+                closeDeletePopup();
+                currentCard = null;
+            }, 300);
+        })
+        .catch(error => {
+            console.error('Error deleting department:', error);
+            console.error('Error details:', error.response?.data);
+            alert('Failed to delete department. Please try again.');
+        });
 }
 
 // Add to your existing event listeners
@@ -152,19 +272,26 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Add click listener to popup overlay for closing
-    document.querySelector('.popup-overlay').addEventListener('click', function(event) {
-        if (event.target === this) {
-            closeEditPopup();
-            closeCreatePopup();
-        }
+    const popupOverlays = document.querySelectorAll('.popup-overlay');
+    popupOverlays.forEach(overlay => {
+        overlay.addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeEditPopup();
+                closeDeletePopup();
+            }
+        });
     });
-});
-
-// Export functions to make them globally available
-window.openEditPopup = openEditPopup;
-window.closeEditPopup = closeEditPopup;
-window.handleEditKeyPress = handleEditKeyPress;
-window.saveDepartmentName = saveDepartmentName;
-window.openCreatePopup = openCreatePopup;
-window.closeCreatePopup = closeCreatePopup;
-window.createDepartment = createDepartment; 
+    
+    // Explicitly expose functions to window object
+    window.openEditPopup = openEditPopup;
+    window.closeEditPopup = closeEditPopup;
+    window.handleEditKeyPress = handleEditKeyPress;
+    window.saveDepartmentName = saveDepartmentName;
+    window.openCreatePopup = openCreatePopup;
+    window.closeCreatePopup = closeCreatePopup;
+    window.createDepartment = createDepartment;
+    window.openDeleteConfirmation = openDeleteConfirmation;
+    window.closeDeletePopup = closeDeletePopup;
+    window.deleteDepartment = deleteDepartment;
+    window.previewImage = previewImage;
+}); 

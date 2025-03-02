@@ -1,2 +1,2 @@
 import './bootstrap';
-import './department';
+import './department.js';
