@@ -12,7 +12,7 @@
         <h1>Login page</h1>
         <div class="login-card">
             <div class="login-action">
-                <a href="{{route('department')}}" class="btn">Login</a>
+                <a href="{{route('department')}}" class="btn">เข้าสู่ระบบ</a>
             </div>
         </div>
     </div>
