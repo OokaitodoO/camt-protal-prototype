@@ -22,7 +22,7 @@
             <span class="camt-logo">Logo Camt</span>
             <ul class="nav-action">
                 <li><a href="{{route('departments.index')}}" class="btn">หน่วยงาน</a></li>
-                <li><a href="" class="btn">เพิ่มบุคลากร</a></li>
+                <li><a href="{{ route('members.index') }}" class="btn">เพิ่มบุคลากร</a></li>
                 <li><a href="" class="btn">ภาระงาน</a></li>
             </ul>
         </nav>
