@@ -80,23 +80,6 @@ header {
 }
 
 
-/* Search Bar Styles */
-.search-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: white;
-    padding: 5px 0px;
-    padding-right: 10px;
-    margin-bottom: 20px;  /* Reduced from 250px in department.css */
-}
-
-.title {
-    display: flex;
-    width: 500px;
-    padding-left: 10px;
-    background: linear-gradient(to right, #ECE3DB, white);
-}
 
 /* Search Input Styles */
 .search-bar input[type="text"] {
