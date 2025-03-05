@@ -14,7 +14,9 @@ class Member extends Model
         'last_name',
         'position',
         'department_id',
-        'profile_picture'
+        'profile_picture',
+        'phone',
+        'email'
     ];
 
     public function department()
