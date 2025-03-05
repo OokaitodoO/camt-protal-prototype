@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Department</title>
+    <title>หน่วยงาน</title>
 
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <link rel="stylesheet" href="{{ asset('css/department.css') }}">
@@ -23,7 +23,7 @@
             <ul class="nav-action">
                 <li><a href="{{route('departments.index')}}" class="btn">หน่วยงาน</a></li>
                 <li><a href="{{ route('members.index') }}" class="btn">เพิ่มบุคลากร</a></li>
-                <li><a href="" class="btn">ภาระงาน</a></li>
+                <li><a href="{{ route('tasks.index') }}" class="btn">ภาระงาน</a></li>
             </ul>
         </nav>
         <div class="serach-bar">

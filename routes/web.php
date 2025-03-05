@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\TaskController;
 
 Route::get('/', [LoginController::class, 'index']);
 
@@ -23,3 +24,6 @@ Route::get('/members/{member}/edit', [MemberController::class, 'edit'])->name('m
 Route::put('/members/{member}', [MemberController::class, 'update'])->name('members.update');
 Route::delete('/members/{member}', [MemberController::class, 'destroy'])->name('members.destroy');
 Route::get('/members/search', [MemberController::class, 'search'])->name('members.search'); 
+
+Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+
