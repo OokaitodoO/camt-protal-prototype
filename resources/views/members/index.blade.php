@@ -45,7 +45,13 @@
         <div class="member-card">
             <div class="card-edit">
                 <span>
-                    <a href="#" class="icon-action" onclick="openEditPopup(this)" data-member-id="{{ $member->id }}">
+                    <a href="#" class="icon-action" 
+                       onclick="openEditPopup(this)" 
+                       data-member-id="{{ $member->id }}"
+                       data-first-name="{{ $member->first_name }}"
+                       data-last-name="{{ $member->last_name }}"
+                       data-position="{{ $member->position }}"
+                       data-department-id="{{ $member->department_id }}">
                         <i class="fas fa-edit"></i> แก้ไข
                     </a>
                 </span>
@@ -102,8 +108,80 @@
         </div>
     </div>
 
+    <!-- Edit Member Popup -->
+    <div class="popup-overlay" id="editPopup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2>แก้ไขบุคลากร</h2>
+                <span class="popup-close" onclick="closeEditPopup()">&times;</span>
+            </div>
+            <form class="popup-form" id="editForm" onsubmit="updateMember(event)">
+                <!-- Add hidden input for member ID -->
+                <input type="hidden" id="editMemberId" name="member_id">
+                
+                <div class="image-upload-container">
+                    <img id="editPreviewImage" class="preview-image" src="{{ asset('images/default-avatar.png') }}" alt="Profile Picture">
+                    <input type="file" id="editProfilePicture" name="profile_picture" accept="image/*" onchange="previewImage(this, 'editPreviewImage')" class="image-input">
+                    <label for="editProfilePicture" class="upload-label">
+                        <i class="fas fa-upload"></i> อัพโหลดรูปภาพ
+                    </label>
+                </div>
+                
+                <!-- Add IDs to the form inputs -->
+                <input type="text" id="editFirstName" name="first_name" placeholder="ชื่อ" required>
+                <input type="text" id="editLastName" name="last_name" placeholder="นามสกุล" required>
+                <select id="editPosition" name="position" required>
+                    <option value="">เลือกตำแหน่ง</option>
+                    <option value="professor">อาจารย์</option>
+                    <option value="staff">เจ้าหน้าที่</option>
+                </select>
+                <select id="editDepartmentId" name="department_id" required>
+                    <option value="">เลือกหน่วยงาน</option>
+                    @foreach($departments as $department)
+                        <option value="{{ $department->id }}">{{ $department->name }}</option>
+                    @endforeach
+                </select>
+                
+                <div class="button-group">
+                    <button type="submit" class="btn-save">บันทึก</button>
+                    <button type="button" class="btn-delete" onclick="openDeleteConfirmation()">
+                        <i class="fas fa-trash"></i> ลบบุคลากร
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete confirmation popup -->
+    <div class="popup-overlay" id="deletePopup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2>ยืนยันการลบบุคลากร</h2>
+                <span class="popup-close" onclick="closeDeletePopup()">&times;</span>
+            </div>
+            <div class="popup-form">
+                <p>คุณต้องการลบบุคลากร "<span id="deleteMemberName"></span>" ใช่หรือไม่?</p>
+                <div class="button-group">
+                    <button type="button" class="btn-cancel" onclick="closeDeletePopup()">ยกเลิก</button>
+                    <button type="button" class="btn-delete" onclick="deleteMember()">ลบ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @vite(['resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ asset('js/member.js') }}"></script>
+    <script>
+        // Debug check for member.js loading
+        console.log('Page loaded');
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof openEditPopup === 'function') {
+                console.log('member.js functions are available');
+            } else {
+                console.error('member.js functions are not loaded properly');
+            }
+        });
+    </script>
 </body>
 </html> 
