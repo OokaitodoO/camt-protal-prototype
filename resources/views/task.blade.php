@@ -24,18 +24,18 @@
             <ul class="nav-action">
                 <li><a href="{{route('departments.index')}}" class="btn">หน่วยงาน</a></li>
                 <li><a href="{{ route('members.index') }}" class="btn">เพิ่มบุคลากร</a></li>
-                <li><a href="{{ route('tasks.index') }}" class="btn">ภาระงาน</a></li>
+                <li><a href="{{ route('tasks.index') }}" class="btn active">ภาระงาน</a></li>
             </ul>
         </nav>
         <div class="search-bar">
             <div class="title">
-                <h1><i class="fas fa-tasks"></i> ภาระงาน</h1>
+                <h1><i class="fas"></i> ภาระงาน</h1>
             </div>
             <div class="action-container">
                 <input type="text" placeholder="ค้นหาภาระงาน...">
-                <button type="button" class="btn-orange create-btn" onclick="openCreatePopup()">
+                <!-- <button type="button" class="btn-orange create-btn" onclick="openCreatePopup()">
                     <i class="fas fa-plus"></i> เพิ่มภาระงาน
-                </button>
+                </button> -->
             </div>
         </div>
     </header>

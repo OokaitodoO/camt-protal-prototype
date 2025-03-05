@@ -79,29 +79,6 @@ header {
     list-style: none;
 }
 
-.nav-bar {
-    display: flex;
-    background-color: white;
-    justify-content: left;
-    align-items: center;
-    gap: 52px;
-    padding: 0 10px;
-    z-index: 1;
-}
-
-.nav-bar ul {
-    display: flex;
-    gap: 52px;
-}
-
-.nav-bar ul li {
-    list-style: none;
-}
-
-.nav-action {
-    margin: 0;
-    padding: 10px 0;
-}
 
 /* Search Bar Styles */
 .search-bar {

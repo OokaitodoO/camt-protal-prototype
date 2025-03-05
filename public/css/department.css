@@ -3,36 +3,8 @@ body {
     background: linear-gradient(to right, #ECE3DB, white);
 }
 
-header {
-    display: flex;
-    flex-direction: column;
-}
-
 ul {
     padding: 0;
-}
-
-.role-container {
-    display:flex;
-    justify-content: right;
-    align-items: center;
-    height: 64px;
-    background-color: #F48E2E;
-    padding: 5px 5px;
-}
-
-.role-container ul li {
-    list-style: none;
-}
-
-.nav-bar {
-    display: flex;
-    background-color: white;
-    justify-content: left;
-    align-items: center;
-    gap: 52px;
-    padding: 0 10px;
-    z-index: 1;
 }
 
 .nav-bar ul {

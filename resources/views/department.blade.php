@@ -21,20 +21,20 @@
         <nav class="nav-bar">
             <span class="camt-logo">Logo Camt</span>
             <ul class="nav-action">
-                <li><a href="{{route('departments.index')}}" class="btn">หน่วยงาน</a></li>
+                <li><a href="{{route('departments.index')}}" class="btn active">หน่วยงาน</a></li>
                 <li><a href="{{ route('members.index') }}" class="btn">เพิ่มบุคลากร</a></li>
                 <li><a href="{{ route('tasks.index') }}" class="btn">ภาระงาน</a></li>
             </ul>
         </nav>
         <div class="serach-bar">
             <div class="title">
-                <h1><i class="fas fa-building"></i> หน่วยงาน</h1>
+                <h1><i class="fas"></i> หน่วยงาน</h1>
             </div>
             <div class="action-container">
-                <input type="text" placeholder="ค้นหาหน่วยงาน...">
-                <button type="button" class="btn-orange create-btn" onclick="openCreatePopup()">
+                <button type="button" class="btn-orange create-nav-btn" onclick="openCreatePopup()">
                     <i class="fas fa-plus"></i> เพิ่มหน่วยงาน
                 </button>
+                <input type="text" placeholder="ค้นหาหน่วยงาน...">
             </div>
         </div>
     </header>

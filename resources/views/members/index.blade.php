@@ -6,7 +6,7 @@
     <title>เพิ่มบุคลากร</title>
 
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/department.css') }}">
+    <!-- <link rel="stylesheet" href="{{ asset('css/department.css') }}"> -->
     <link rel="stylesheet" href="{{ asset('css/member.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -22,19 +22,19 @@
             <span class="camt-logo">Logo Camt</span>
             <ul class="nav-action">
                 <li><a href="{{ route('departments.index') }}" class="btn">หน่วยงาน</a></li>
-                <li><a href="{{ route('members.index') }}" class="btn">เพิ่มบุคลากร</a></li>
-                <li><a href="" class="btn">ภาระงาน</a></li>
+                <li><a href="{{ route('members.index') }}" class="btn active">เพิ่มบุคลากร</a></li>
+                <li><a href="{{ route('tasks.index') }}" class="btn">ภาระงาน</a></li>
             </ul>
         </nav>
         <div class="serach-bar">
             <div class="title">
-                <h1><i class="fas fa-user-plus"></i> เพิ่มบุคลากร</h1>
+                <h1><i class="fas"></i> เพิ่มบุคลากร</h1>
             </div>
             <div class="action-container">
-                <input type="text" placeholder="ค้นหาบุคลากร...">
                 <button type="button" class="btn-orange create-btn" onclick="openCreatePopup()">
                     <i class="fas fa-plus"></i> เพิ่มบุคลากร
                 </button>
+                <input type="text" placeholder="ค้นหาบุคลากร...">
             </div>
         </div>
     </header>
